@@ -4,10 +4,8 @@ Ce dépôt fournit un menu interactif pour créer rapidement des LXC Debian 12 e
 
 ## Lancement rapide
 
-> Remplacez `OWNER/REPO` par votre dépôt GitHub.
-
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/REPO/main/menu.sh -o menu.sh \
+curl -fsSL https://raw.githubusercontent.com/GalaxieOn/proxmox-script/main/menu.sh -o menu.sh \
   && chmod +x menu.sh \
   && ./menu.sh
 ```
