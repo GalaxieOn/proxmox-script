@@ -47,21 +47,40 @@ source "$SCRIPT_DIR/lib/ui.sh"
 ensure_whiptail
 
 while true; do
-  choice=$(prompt_menu "Proxmox Script" "Choisissez un module" 15 70 6 \
-    "lxc_debian12_base" "Créer un LXC Debian 12" \
-    "vm_ubuntu2404_cloudinit" "Créer une VM Ubuntu 24.04 Cloud-Init" \
+  category=$(prompt_menu "Proxmox Script" "Choisissez le type" 12 70 4 \
+    "lxc" "Conteneur LXC" \
+    "vm" "Machine virtuelle (VM)" \
     "quit" "Quitter" ) || exit 0
 
-  case "$choice" in
-    lxc_debian12_base)
-      "$SCRIPT_DIR/modules/lxc_debian12_base.sh"
+  case "$category" in
+    lxc)
+      lxc_choice=$(prompt_menu "LXC" "Choisissez une version" 12 70 4 \
+        "debian12" "Debian 12" \
+        "back" "Retour" ) || exit 0
+      case "$lxc_choice" in
+        debian12)
+          "$SCRIPT_DIR/modules/lxc_debian12_base.sh"
+          ;;
+        back)
+          continue
+          ;;
+      esac
       ;;
-    vm_ubuntu2404_cloudinit)
-      "$SCRIPT_DIR/modules/vm_ubuntu2404_cloudinit.sh"
+    vm)
+      vm_choice=$(prompt_menu "VM" "Choisissez une version" 12 70 4 \
+        "ubuntu2404" "Ubuntu 24.04 Cloud-Init" \
+        "back" "Retour" ) || exit 0
+      case "$vm_choice" in
+        ubuntu2404)
+          "$SCRIPT_DIR/modules/vm_ubuntu2404_cloudinit.sh"
+          ;;
+        back)
+          continue
+          ;;
+      esac
       ;;
     quit)
       exit 0
       ;;
   esac
-
 done
