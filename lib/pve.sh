@@ -21,3 +21,21 @@ get_debian12_template() {
   fi
   echo "$template"
 }
+
+get_debian133_template() {
+  local template
+  template=$(pveam available -section system | awk '/debian-13/ {print $2}' | tail -n1)
+  if [[ -z "$template" ]]; then
+    return 1
+  fi
+  echo "$template"
+}
+
+get_ubuntu2404_template() {
+  local template
+  template=$(pveam available -section system | awk '/ubuntu-24.04/ {print $2}' | tail -n1)
+  if [[ -z "$template" ]]; then
+    return 1
+  fi
+  echo "$template"
+}

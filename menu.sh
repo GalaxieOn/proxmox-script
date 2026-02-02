@@ -30,13 +30,21 @@ bootstrap_dependencies() {
   bootstrap_file "lib/json.sh"
   bootstrap_file "lib/pve.sh"
   bootstrap_file "modules/lxc_debian12_base.sh"
+  bootstrap_file "modules/lxc_ubuntu2404_base.sh"
+  bootstrap_file "modules/lxc_debian133_base.sh"
   bootstrap_file "modules/vm_ubuntu2404_cloudinit.sh"
+  bootstrap_file "modules/vm_ubuntu2404_base.sh"
+  bootstrap_file "modules/vm_debian133_base.sh"
 
   chmod +x "${SCRIPT_DIR}/lib/ui.sh" \
     "${SCRIPT_DIR}/lib/json.sh" \
     "${SCRIPT_DIR}/lib/pve.sh" \
     "${SCRIPT_DIR}/modules/lxc_debian12_base.sh" \
-    "${SCRIPT_DIR}/modules/vm_ubuntu2404_cloudinit.sh"
+    "${SCRIPT_DIR}/modules/lxc_ubuntu2404_base.sh" \
+    "${SCRIPT_DIR}/modules/lxc_debian133_base.sh" \
+    "${SCRIPT_DIR}/modules/vm_ubuntu2404_cloudinit.sh" \
+    "${SCRIPT_DIR}/modules/vm_ubuntu2404_base.sh" \
+    "${SCRIPT_DIR}/modules/vm_debian133_base.sh"
 }
 
 bootstrap_dependencies
@@ -54,12 +62,20 @@ while true; do
 
   case "$category" in
     lxc)
-      lxc_choice=$(prompt_menu "LXC" "Choisissez une version" 12 70 4 \
+      lxc_choice=$(prompt_menu "LXC" "Choisissez une version" 14 70 6 \
         "debian12" "Debian 12" \
+        "ubuntu2404" "Ubuntu 24.04" \
+        "debian133" "Debian 13.3" \
         "back" "Retour" ) || exit 0
       case "$lxc_choice" in
         debian12)
           "$SCRIPT_DIR/modules/lxc_debian12_base.sh"
+          ;;
+        ubuntu2404)
+          "$SCRIPT_DIR/modules/lxc_ubuntu2404_base.sh"
+          ;;
+        debian133)
+          "$SCRIPT_DIR/modules/lxc_debian133_base.sh"
           ;;
         back)
           continue
@@ -67,12 +83,20 @@ while true; do
       esac
       ;;
     vm)
-      vm_choice=$(prompt_menu "VM" "Choisissez une version" 12 70 4 \
-        "ubuntu2404" "Ubuntu 24.04 Cloud-Init" \
+      vm_choice=$(prompt_menu "VM" "Choisissez une version" 14 70 6 \
+        "ubuntu2404_cloudinit" "Ubuntu 24.04 Cloud-Init" \
+        "ubuntu2404_base" "Ubuntu 24.04 (sans Cloud-Init)" \
+        "debian133" "Debian 13.3" \
         "back" "Retour" ) || exit 0
       case "$vm_choice" in
-        ubuntu2404)
+        ubuntu2404_cloudinit)
           "$SCRIPT_DIR/modules/vm_ubuntu2404_cloudinit.sh"
+          ;;
+        ubuntu2404_base)
+          "$SCRIPT_DIR/modules/vm_ubuntu2404_base.sh"
+          ;;
+        debian133)
+          "$SCRIPT_DIR/modules/vm_debian133_base.sh"
           ;;
         back)
           continue
